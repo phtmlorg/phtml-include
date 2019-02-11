@@ -1,0 +1,56 @@
+{
+  "name": "@phtml/include",
+  "version": "1.0.0",
+  "description": "Embed HTML partials into HTML",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "license": "CC0-1.0",
+  "repository": "phtmlorg/phtml-include",
+  "homepage": "https://github.com/phtmlorg/phtml-include#readme",
+  "bugs": "https://github.com/phtmlorg/phtml-include/issues",
+  "main": "index.js",
+  "module": "index.mjs",
+  "files": [
+    "index.js",
+    "index.js.map",
+    "index.mjs",
+    "index.mjs.map"
+  ],
+  "scripts": {
+    "build": "rollup --config .rollup.js --silent",
+    "prepublishOnly": "npm test",
+    "pretest": "npm run build",
+    "test": "npm run test:js && npm run test:tape",
+    "test:js": "eslint src/*.js --cache --ignore-path .gitignore --quiet",
+    "test:tape": "phtml-tape"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "phtml": "^1.1.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.13.0",
+    "eslint-config-dev": "^2.0.0",
+    "phtml-tape": "^1.1.1",
+    "pre-commit": "^1.2.2",
+    "rollup": "^1.1.2",
+    "rollup-plugin-babel": "^4.3.2"
+  },
+  "eslintConfig": {
+    "extends": "dev",
+    "parser": "babel-eslint"
+  },
+  "keywords": [
+    "phtml",
+    "html",
+    "phtml-plugin",
+    "include",
+    "import",
+    "reference",
+    "embed"
+  ]
+}
