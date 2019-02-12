@@ -1,10 +1,10 @@
-import { readFile } from 'fs';
+import { readFile, stat } from 'fs';
 import { join, sep } from 'path';
 
 /* Resolve the location of a file within `url(id)` from `cwd`
 /* ========================================================================== */
 
-export default function resolve(id, rawcwd, rawcache) {
+export default function resolve (id, rawcwd, rawcache) {
 	const cache = Object(rawcache);
 
 	// if `id` starts with `/` then `cwd` is the filesystem root
@@ -24,26 +24,26 @@ export default function resolve(id, rawcwd, rawcache) {
 	.catch(() => Promise.reject(new Error('HTML not found')));
 }
 
-function resolve_as_file(file, cache) {
+function resolve_as_file (file, cache) {
 	// resolve `file` as the file
-	return file_contents(file, cache)
+	return file_modified_contents(file, cache)
 	// otherwise, resolve `file.html` as the file
-	.catch(() => file_contents(`${file}.html`, cache));
+	.catch(() => file_modified_contents(`${file}.html`, cache));
 }
 
-function resolve_as_directory(dir, cache) {
+function resolve_as_directory (dir, cache) {
 	// resolve the JSON contents of `dir/package.json` as `pkg`
 	return json_contents(dir, cache).then(
 		// if `pkg` has a `html` field
 		pkg => 'html' in pkg
 			// resolve `dir/pkg.html` as the file
-			? file_contents(join(dir, pkg.html), cache)
+			? file_modified_contents(join(dir, pkg.html), cache)
 		// otherwise, resolve `dir/index.html` as the file
-		: file_contents(join(dir, 'index.html'), cache)
+		: file_modified_contents(join(dir, 'index.html'), cache)
 	);
 }
 
-function resolve_as_module(cwd, id, cache) {
+function resolve_as_module (cwd, id, cache) {
 	// for each `dir` in the node modules directory using `cwd`
 	return node_modules_dirs(cwd).reduce(
 		(promise, dir) => promise.catch(
@@ -56,7 +56,7 @@ function resolve_as_module(cwd, id, cache) {
 	);
 }
 
-function node_modules_dirs(cwd) {
+function node_modules_dirs (cwd) {
 	// segments is `cwd` split by `/`
 	const segments = cwd.split(sep);
 
@@ -87,32 +87,44 @@ function node_modules_dirs(cwd) {
 /* Additional tooling
 /* ========================================================================== */
 
-function file_contents(file, cache) {
-	cache[file] = cache[file] || new Promise(
+function file_contents (file, mtimeMs, cache) {
+	cache[file] = new Promise(
 		(resolvePromise, rejectPromise) => readFile(file, 'utf8', (error, contents) => error
 			? rejectPromise(error)
-			: resolvePromise({
-				file,
-				contents
-			})
+			: resolvePromise({ file, contents })
 		)
 	);
+
+	cache[file].mtimeMs = mtimeMs;
 
 	return cache[file];
 }
 
-function json_contents(dir, cache) {
+function file_modified_contents (file, cache) {
+	return new Promise((resolvePromise, rejectPromise) => {
+		stat(
+			file,
+			(error, stats) => error
+				? rejectPromise(error)
+			: cache[file] && cache[file].mtimeMs === stats.mtimeMs
+				? resolvePromise(cache[file])
+			: resolvePromise(file_contents(file, stats.mtimeMs, cache))
+		)
+	});
+}
+
+function json_contents (dir, cache) {
 	const file = join(dir, 'package.json');
 
-	return file_contents(file, cache).then(
+	return file_modified_contents(file, cache).then(
 		({ contents }) => JSON.parse(contents)
 	);
 }
 
-function starts_with_root(id) {
+function starts_with_root (id) {
 	return /^\//.test(id);
 }
 
-function starts_with_relative(id) {
+function starts_with_relative (id) {
 	return /^\.{0,2}\//.test(id);
 }
