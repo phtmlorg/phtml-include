@@ -6,25 +6,30 @@ export default new phtml.Plugin('phtml-include', opts => {
 	const overrideCWD = Object(opts).cwd;
 	const fileCache = {};
 
-	return root => {
-		let promise = Promise.resolve();
+	const promises = new WeakMap();
 
-		root.walk(node => {
-			if (node.type === 'element' && node.name === 'include' && node.attrs.contains('src')) {
+	return {
+		Element(node, result) {
+			let promise = promises.get(result) || Promise.resolve();
+
+			if (node.name === 'include' && node.attrs.contains('src')) {
 				const id = node.attrs.get('src');
-				const cwd = overrideCWD || path.dirname(node.source.from);
+				const cwd = overrideCWD || path.dirname(node.source.input.from);
 				const src = resolve(id, cwd, fileCache);
 
 				promise = promise.then(
 					() => src
 				).then(
-					result => new Result(result.contents, { from: result.file }).root
+					subresult => new Result(subresult.contents, { from: subresult.file }).root
 				).then(moduleRoot => {
 					node.replaceWith(...moduleRoot.nodes);
 				});
-			}
-		});
 
-		return promise;
+				promises.set(result, promise);
+			}
+		},
+		Root(root, result) {
+			return promises.get(result);
+		}
 	};
 });
