@@ -33,6 +33,14 @@
 
 ## Usage
 
+Transform HTML files directly from the command line:
+
+```bash
+npx phtml source.html output.html -p @phtml/include
+```
+
+### Node
+
 Add [pHTML Include] to your project:
 
 ```bash

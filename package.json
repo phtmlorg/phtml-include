@@ -27,7 +27,7 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "phtml": "^2.0.1"
+    "phtml": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
@@ -37,7 +37,7 @@
     "eslint-config-dev": "^2.0.0",
     "phtml-tape": "^2.0.0",
     "pre-commit": "^1.2.2",
-    "rollup": "^1.2.2",
+    "rollup": "^1.2.3",
     "rollup-plugin-babel": "^4.3.2"
   },
   "eslintConfig": {
