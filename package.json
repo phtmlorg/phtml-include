@@ -1,6 +1,6 @@
 {
   "name": "@phtml/include",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Embed HTML partials into HTML",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
@@ -27,17 +27,17 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "phtml": "^2.0.2"
+    "phtml": "^2.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.3",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.14.1",
+    "eslint": "^5.15.1",
     "eslint-config-dev": "^2.0.0",
     "phtml-tape": "^2.0.0",
     "pre-commit": "^1.2.2",
-    "rollup": "^1.2.3",
+    "rollup": "^1.6.0",
     "rollup-plugin-babel": "^4.3.2"
   },
   "eslintConfig": {

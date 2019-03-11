@@ -22,11 +22,22 @@ export default new phtml.Plugin('phtml-include', opts => {
 				).then(
 					subresult => new Result(subresult.contents, { from: subresult.file }).root
 				).then(moduleRoot => {
-					node.replaceWith(...moduleRoot.nodes);
+					const nodes = moduleRoot.nodes.slice(0);
+
+					node.replaceWith(...nodes);
+
+					nodes.reduce(
+						(childPromise, childNode) => childPromise.then(
+							() => childNode.observe()
+						),
+						Promise.resolve()
+					);
 				});
 
 				promises.set(result, promise);
 			}
+
+			return promise;
 		},
 		Root(root, result) {
 			return promises.get(result);
