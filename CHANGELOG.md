@@ -1,5 +1,9 @@
 # Changes to pHTML Include
 
+### 3.0.0 (March 16, 2019)
+
+- Updated: `phtml` to 3.0.0 (major)
+
 ### 2.0.2 (March 11, 2019)
 
 - Fixed: Another issue with re-applying observers on included files

@@ -1,6 +1,6 @@
 {
   "name": "@phtml/include",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "Embed HTML partials into HTML",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
@@ -18,7 +18,7 @@
   "scripts": {
     "build": "rollup --config .rollup.js --silent",
     "prepublishOnly": "npm test",
-    "pretest": "npm run build",
+    "pretest:tape": "npm run build",
     "test": "npm run test:js && npm run test:tape",
     "test:js": "eslint src/*.js --cache --ignore-path .gitignore --quiet",
     "test:tape": "phtml-tape"
@@ -27,15 +27,15 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "phtml": "^2.0.4"
+    "phtml": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.15.1",
+    "eslint": "^5.15.2",
     "eslint-config-dev": "^2.0.0",
-    "phtml-tape": "^2.0.0",
+    "phtml-tape": "^3.0.0",
     "pre-commit": "^1.2.2",
     "rollup": "^1.6.0",
     "rollup-plugin-babel": "^4.3.2"
@@ -44,7 +44,9 @@
     "extends": "dev",
     "parser": "babel-eslint",
     "rules": {
-      "consistent-return": [0]
+      "consistent-return": [
+        0
+      ]
     }
   },
   "keywords": [
