@@ -1,5 +1,10 @@
 # Changes to pHTML Include
 
+### 4.1.0 (May 6, 2019)
+
+- Added: Dependency messages for successful includes
+- Added: Warnings without throws for unsuccessful includes
+
 ### 4.0.0 (May 6, 2019)
 
 - Updated: `phtml` to 4.0.0 (major)

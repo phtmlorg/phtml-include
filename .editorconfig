@@ -16,3 +16,4 @@ indent_style = space
 
 [test/*.html]
 insert_final_newline = false
+trim_trailing_whitespace = false

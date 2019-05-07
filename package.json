@@ -1,6 +1,6 @@
 {
   "name": "@phtml/include",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Embed HTML partials into HTML",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
